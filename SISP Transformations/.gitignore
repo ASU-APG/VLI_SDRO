@@ -1,0 +1,10 @@
+*.sh
+RuntimeOutputs/
+sbatch_outputs
+fairseq
+*.pub
+github
+__pycache__
+pass2act/
+files
+config.yaml
