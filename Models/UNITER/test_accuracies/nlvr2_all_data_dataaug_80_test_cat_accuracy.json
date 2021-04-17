@@ -1,0 +1,18 @@
+{
+    "orig": 0.7137935983924214,
+    "si_comparative_antonym": 0.862540192926045,
+    "si_negation": 0.6792335254712573,
+    "si_noun_antonym": 0.9444138690148597,
+    "si_number_substitution": 0.9776379217996787,
+    "si_pronoun_substitution": 0.9828660436137072,
+    "si_subject_object_swap": 0.9541440217391305,
+    "si_verb_antonym": 0.9136403897254207,
+    "sp_comparative_synonym": 0.6228893058161351,
+    "sp_nmt": 0.6893928520166499,
+    "sp_noun_synonym": 0.6782444803446419,
+    "sp_number_substitution": 0.7930304197150558,
+    "sp_pronoun_substitution": 0.67654234925061,
+    "sp_verb_synonym": 0.6709051134809954
+}{
+    "avg_acc": 0.797091005950472
+}

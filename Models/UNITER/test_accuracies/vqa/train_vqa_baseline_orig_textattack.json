@@ -1,0 +1,10 @@
+{
+    "CLAREAugmenter": 0.8081587651598677,
+    "CharSwapAugmenter": 0.7574094401756312,
+    "CheckListAugmenter": 0.8245614035087719,
+    "EasyDataAugmenter": 0.7273809523809524,
+    "EmbeddingAugmenter": 0.7694038245219348,
+    "WordNetAugmenter": 0.7685185185185185
+}{
+    "avg_acc": 0.7759054840442795
+}
