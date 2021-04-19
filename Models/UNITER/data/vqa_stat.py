@@ -40,7 +40,7 @@ def _get_vqa_target_eval(example, num_answers):
     return target
 
 
-class VqaDataset_DRO(DetectFeatTxtTokDataset):
+class VqaDataset_STAT(DetectFeatTxtTokDataset):
     def __init__(self, num_answers, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -53,22 +53,6 @@ class VqaDataset_DRO(DetectFeatTxtTokDataset):
         orig_lens, self.orig_ids, self.orig_transformation_dict = get_ids_and_lens_stat_vqa(self.txt_db)
         LOGGER.info("Len of orig_transformation_dict {}".format(len(self.orig_transformation_dict)))
         
-        # Filter the ids which have corresponding image feature file
-        # orig_lens, self.orig_ids = [], []
-        # for tl, id_ in zip(_lens, _orig_ids):
-        #     flag = True
-        #     for img in [itxt2imgd_]: 
-        #         if img not in self.img_db.name2nbb:
-        #             print(img)
-        #             flag = False
-        #             break
-        #     if flag:
-        #         orig_lens.append(tl)
-        #         self.orig_ids.append(id_)
-        #     else :
-        #         # print(id_)
-        #         pass
-
         self.lens = [tl + self.img_db.name2nbb[txt2img[id_]]
                      for tl, id_ in zip(orig_lens, self.orig_ids)]
 
@@ -114,7 +98,7 @@ class VqaDataset_DRO(DetectFeatTxtTokDataset):
         else: 
             self.x = int(len(self.orig_ids) * T)
         
-        return VqaAugDataset_DRO(self.x, self.orig_ids, self.txt_db, self.img_db, self.orig_transformation_dict, self.num_answers), self.x
+        return VqaAugDataset_STAT(self.x, self.orig_ids, self.txt_db, self.img_db, self.orig_transformation_dict, self.num_answers), self.x
 
 
     def add_aug_data(self, aug_item_ids, use_iterative=True):
@@ -170,7 +154,7 @@ def vqa_collate_stat(inputs):
     return batch
 
 
-class VqaAugDataset_DRO(DetectFeatTxtTokDataset):
+class VqaAugDataset_STAT(DetectFeatTxtTokDataset):
     def __init__(self, x, orig_ids, txt_db, img_db, orig_transformation_dict, num_answers):
         # super().__init__(*args, **kwargs)
         self.num_answers = num_answers

@@ -1,0 +1,5 @@
+01/27/2021 00:42:34 - INFO - __main__ -   ***** Running training with 4 GPUs *****
+01/27/2021 00:42:34 - INFO - __main__ -     Num examples = 21585
+01/27/2021 00:42:34 - INFO - __main__ -     Batch size = 10240
+01/27/2021 00:42:34 - INFO - __main__ -     Accumulate steps = 1
+01/27/2021 00:42:34 - INFO - __main__ -     Num steps = 8000

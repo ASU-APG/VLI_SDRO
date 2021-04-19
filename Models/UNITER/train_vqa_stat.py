@@ -26,8 +26,8 @@ from data import (TokenBucketSampler, PrefetchLoader,
                   VqaDataset, VqaEvalDataset,
                   vqa_collate, vqa_eval_collate)
 
-from data import (VqaDataset_DRO, vqa_collate_stat, 
-                    VqaAugDataset_DRO, vqa_collate_aug_stat)
+from data import (VqaDataset_STAT, vqa_collate_stat, 
+                    VqaAugDataset_STAT, vqa_collate_aug_stat)
 
 from model.vqa import UniterForVisualQuestionAnswering
 from optim import AdamW, get_lr_sched
@@ -123,7 +123,7 @@ def main(opts):
     for txt_path, img_path in zip(opts.train_txt_dbs, opts.train_img_dbs):
         img_db = all_img_dbs[img_path]
         txt_db = TxtTokLmdb(txt_path, opts.max_txt_len)
-        dt = VqaDataset_DRO(len(ans2label), txt_db, img_db)
+        dt = VqaDataset_STAT(len(ans2label), txt_db, img_db)
         LOGGER.info(f"{len(dt), txt_path}")
 
         train_datasets.append(dt)
@@ -452,7 +452,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
 
-    # Group DRO ARGS
+    # Group STAT ARGS
     parser.add_argument("--n_pre", type=int, default=0)
     parser.add_argument("--n_post", type=int, default=3)
     parser.add_argument("--aug_freq", type=int, default=1)

@@ -17,7 +17,7 @@ from .data import (DetectFeatTxtTokDataset, TxtTokLmdb, DetectFeatLmdb,
 
 from utils.logger import LOGGER
 
-class Nlvr2PairedDataset_DRO(DetectFeatTxtTokDataset):
+class Nlvr2PairedDataset_STAT(DetectFeatTxtTokDataset):
     def __init__(self, txt_db, img_db, use_img_type=True):
         assert isinstance(txt_db, TxtTokLmdb)
         assert isinstance(img_db, DetectFeatLmdb)
@@ -95,7 +95,7 @@ class Nlvr2PairedDataset_DRO(DetectFeatTxtTokDataset):
         else: 
             self.x = int(len(self.orig_ids) * T)
         
-        return Nlvr2PairedDatasetEval_DRO(self.x, self.orig_ids, self.txt_db, self.img_db, self.orig_transformation_dict, self.use_img_type)
+        return Nlvr2PairedDatasetEval_STAT(self.x, self.orig_ids, self.txt_db, self.img_db, self.orig_transformation_dict, self.use_img_type)
 
     
     def add_aug_data(self, aug_item_ids, use_iterative=True):
@@ -107,11 +107,9 @@ class Nlvr2PairedDataset_DRO(DetectFeatTxtTokDataset):
         txt2img = self.txt_db.txt2img
         if use_iterative:
             self.aug_ids.extend(aug_item_ids)
-            print("Aug_li len {}".format(len(self.aug_ids)))
             self.train_ids = []
             self.train_ids.extend(self.aug_ids)
             orig_idx = len(self.orig_ids) - len(self.aug_ids)
-            print("Orig_li len {}".format(orig_idx))
             self.train_ids.extend(self.orig_ids[:orig_idx])
             _lens = get_lens_for_ids(self.txt_db, self.train_ids)
             self.train_lens = [2*tl + sum(self.img_db.name2nbb[img]
@@ -122,10 +120,7 @@ class Nlvr2PairedDataset_DRO(DetectFeatTxtTokDataset):
             pass 
 
 
-    # def get_lens_for_ids(self, ids):
-    #     return [2*tl + sum(self.img_db.name2nbb[img]
-    #                             for img in txt2img[id_])
-    #                  for tl, id_ in zip(txt_lens, ids)]
+
 
 
 
@@ -166,7 +161,7 @@ def nlvr2_paired_collate_stat(inputs):
     return batch
 
 
-class Nlvr2PairedDatasetEval_DRO(DetectFeatTxtTokDataset):
+class Nlvr2PairedDatasetEval_STAT(DetectFeatTxtTokDataset):
 
     def __init__(self, x, orig_ids, txt_db, img_db, orig_transformation_dict, use_img_type=True):
         assert isinstance(txt_db, TxtTokLmdb)
@@ -186,17 +181,13 @@ class Nlvr2PairedDatasetEval_DRO(DetectFeatTxtTokDataset):
             self.ids.extend(self.orig_transformation_dict[parent_id])
             if count >= x:
                 break
-        # LOGGER.info("Orig_ids {}".format(len(orig_ids)))
-        # LOGGER.info("Count {}".format(count))
-        # LOGGER.info("Len of ids in eval stat {}".format(len(self.ids)))    
+
         txt_lens = get_lens_for_ids(self.txt_db, self.ids)
-        # LOGGER.info("Len of txt_lens in eval stat {}".format(len(txt_lens)))
 
         self.lens = [2*tl + sum(self.img_db.name2nbb[img]
                                 for img in txt2img[id_])
                      for tl, id_ in zip(txt_lens, self.ids)]
 
-        # LOGGER.info("Len of lens {}".format(len(self.lens)))
         self.use_img_type = use_img_type
 
     def __len__(self):
@@ -216,15 +207,6 @@ class Nlvr2PairedDatasetEval_DRO(DetectFeatTxtTokDataset):
         id_ = self.ids[i]
         example = self.txt_db[id_]
 
-        # if 'sp_tag' in example:
-        #     tag = example['sp_tag']
-        #     example['tag'] = example['sp_tag']
-        # elif 'cf_tag' in example:
-        #     tag = example['cf_tag']
-        #     example['tag'] = example['cf_tag']
-        # else: 
-        #     tag = 'orig'
-        #     example['tag'] = tag
 
         target = example['target']
         outs = []
@@ -247,10 +229,6 @@ class Nlvr2PairedDatasetEval_DRO(DetectFeatTxtTokDataset):
                          attn_masks, img_type_ids))
         return tuple(outs), target, example['parent_identifier'], example['tag'], id_
     
-    # def get_lens_for_ids(self, ids):
-    #     return [2*tl + sum(self.img_db.name2nbb[img]
-    #                             for img in txt2img[id_])
-    #                  for tl, id_ in zip(txt_lens, ids)]
 
 def nlvr2_paired_collate_eval_stat(inputs):
     (input_ids, img_feats, img_pos_feats, attn_masks,

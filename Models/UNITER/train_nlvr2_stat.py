@@ -24,8 +24,8 @@ from data import (TokenBucketSampler, DetectFeatLmdb, TxtTokLmdb,
                   Nlvr2TripletDataset, Nlvr2TripletEvalDataset,
                   nlvr2_paired_collate, nlvr2_paired_eval_collate,
                   nlvr2_triplet_collate, nlvr2_triplet_eval_collate,
-                  PrefetchLoader, Nlvr2PairedDataset_DRO, nlvr2_paired_collate_stat, 
-                  Nlvr2PairedDatasetEval_DRO, nlvr2_paired_collate_eval_stat)
+                  PrefetchLoader, Nlvr2PairedDataset_STAT, nlvr2_paired_collate_stat, 
+                  Nlvr2PairedDatasetEval_STAT, nlvr2_paired_collate_eval_stat)
 
 
 from model.nlvr2 import (UniterForNlvr2Paired, UniterForNlvr2Triplet,
@@ -97,7 +97,7 @@ def main(opts):
     LOGGER.info(f"Loading Train Dataset {opts.train_txt_db}, "
                 f"{opts.train_img_db}")
     if 'paired' in opts.model:
-        DatasetCls = Nlvr2PairedDataset_DRO
+        DatasetCls = Nlvr2PairedDataset_STAT
         EvalDatasetCls = Nlvr2PairedEvalDataset
         collate_fn = nlvr2_paired_collate_stat
         eval_collate_fn = nlvr2_paired_eval_collate
