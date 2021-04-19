@@ -37,7 +37,7 @@ from utils.logger import LOGGER, TB_LOGGER, RunningMeter, add_log_to_file
 from utils.distributed import (all_reduce_and_rescale_tensors, all_gather_list,
                                broadcast_tensors)
 from utils.save import ModelSaver, save_training_meta
-from utils.misc import NoOp, parse_with_config, set_statpout, set_random_seed
+from utils.misc import NoOp, parse_with_config, set_dropout, set_random_seed
 from utils.const import IMG_DIM, BUCKET_SIZE
 
 
@@ -50,7 +50,7 @@ def create_dataloader(img_path, txt_path, batch_size, is_train,
     dset = dset_cls(txt_db, img_db, opts.use_img_type)
 
     sampler = TokenBucketSampler(dset.lens, bucket_size=BUCKET_SIZE,
-                                 batch_size=batch_size, statplast=is_train)
+                                 batch_size=batch_size, droplast=is_train)
     loader = DataLoader(dset, batch_sampler=sampler,
                         num_workers=opts.n_workers, pin_memory=opts.pin_mem,
                         collate_fn=collate_fn)
@@ -69,7 +69,7 @@ def create_train_dataloader_dset(img_path, txt_path, batch_size, is_train,
 
 def create_train_loader(dset, lens, batch_size, is_train, collate_fn, opts):
     sampler = TokenBucketSampler(lens, bucket_size=BUCKET_SIZE,
-                                 batch_size=batch_size, statplast=is_train)
+                                 batch_size=batch_size, droplast=is_train)
     loader = DataLoader(dset, batch_sampler=sampler,
                         num_workers=opts.n_workers, pin_memory=opts.pin_mem,
                         collate_fn=collate_fn)
@@ -140,7 +140,7 @@ def main(opts):
     model.to(device)
     # make sure every process has same model parameters in the beginning
     broadcast_tensors([p.data for p in model.parameters()], 0)
-    set_statpout(model, opts.statpout)
+    set_dropout(model, opts.dropout)
 
     # Prepare optimizer
     optimizer = build_optimizer(model, opts)
@@ -505,10 +505,10 @@ if __name__ == "__main__":
                         help="optimizer")
     parser.add_argument("--betas", default=[0.9, 0.98], nargs='+', type=float,
                         help="beta for adam optimizer")
-    parser.add_argument("--statpout",
+    parser.add_argument("--dropout",
                         default=0.1,
                         type=float,
-                        help="tune statpout regularization")
+                        help="tune dropout regularization")
     parser.add_argument("--weight_decay",
                         default=0.0,
                         type=float,

@@ -36,7 +36,7 @@ from utils.logger import LOGGER, TB_LOGGER, RunningMeter, add_log_to_file
 from utils.distributed import (all_reduce_and_rescale_tensors, all_gather_list,
                                broadcast_tensors)
 from utils.save import ModelSaver, save_training_meta
-from utils.misc import NoOp, parse_with_config, set_statpout, set_random_seed
+from utils.misc import NoOp, parse_with_config, set_dropout, set_random_seed
 from utils.const import BUCKET_SIZE, IMG_DIM
 
 
@@ -44,7 +44,7 @@ def build_dataloader(dataset, collate_fn, is_train, opts):
     batch_size = (opts.train_batch_size if is_train
                   else opts.val_batch_size)
     sampler = TokenBucketSampler(dataset.lens, bucket_size=BUCKET_SIZE,
-                                 batch_size=batch_size, statplast=is_train)
+                                 batch_size=batch_size, droplast=is_train)
     dataloader = DataLoader(dataset, batch_sampler=sampler,
                             num_workers=opts.n_workers,
                             pin_memory=opts.pin_mem, collate_fn=collate_fn)
@@ -154,7 +154,7 @@ def main(opts):
     model.to(device)
     # make sure every process has same model parameters in the beginning
     broadcast_tensors([p.data for p in model.parameters()], 0)
-    set_statpout(model, opts.statpout)
+    set_dropout(model, opts.dropout)
 
     # Prepare optimizer
     optimizer = build_optimizer(model, opts)
@@ -512,8 +512,8 @@ if __name__ == "__main__":
                         help="optimizer")
     parser.add_argument("--betas", default=[0.9, 0.98], nargs='+',
                         help="beta for adam optimizer")
-    parser.add_argument("--statpout", default=0.1, type=float,
-                        help="tune statpout regularization")
+    parser.add_argument("--dropout", default=0.1, type=float,
+                        help="tune dropout regularization")
     parser.add_argument("--weight_decay", default=0.0, type=float,
                         help="weight decay (L2) regularization")
     parser.add_argument("--grad_norm", default=2.0, type=float,

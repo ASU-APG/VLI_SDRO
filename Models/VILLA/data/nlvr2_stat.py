@@ -13,12 +13,12 @@ from toolz.sandbox import unzip
 from cytoolz import concat
 
 from .data import (DetectFeatTxtTokDataset, TxtTokLmdb, DetectFeatLmdb,
-                   get_ids_and_lens, pad_tensors, get_ids_and_lens_dro, get_gather_index, get_lens_for_ids)
-# from .data_dro import get_ids_and_lens_dro
+                   get_ids_and_lens, pad_tensors, get_ids_and_lens_stat, get_gather_index, get_lens_for_ids)
+# from .data_stat import get_ids_and_lens_stat
 
 from utils.logger import LOGGER
 
-class Nlvr2PairedDataset_DRO(DetectFeatTxtTokDataset):
+class Nlvr2PairedDataset_STAT(DetectFeatTxtTokDataset):
     def __init__(self, txt_db, img_db, use_img_type=True, orig_per = 0.1):
         assert isinstance(txt_db, TxtTokLmdb)
         assert isinstance(img_db, DetectFeatLmdb)
@@ -27,7 +27,7 @@ class Nlvr2PairedDataset_DRO(DetectFeatTxtTokDataset):
         self.aug_ids = []
 
         txt2img = txt_db.txt2img
-        _lens, _orig_ids, self.orig_transformation_dict = get_ids_and_lens_dro(txt_db, orig_per)
+        _lens, _orig_ids, self.orig_transformation_dict = get_ids_and_lens_stat(txt_db, orig_per)
         LOGGER.info("Len of orig_transformation_dict {}".format(len(self.orig_transformation_dict)))
         # LOGGER.info("Got the ids 1")
 
@@ -102,7 +102,7 @@ class Nlvr2PairedDataset_DRO(DetectFeatTxtTokDataset):
         else: 
             self.x = int(len(self.orig_ids) * T)
         
-        return Nlvr2PairedDatasetEval_DRO(self.x, self.orig_ids, self.txt_db, self.img_db, self.orig_transformation_dict, self.use_img_type)
+        return Nlvr2PairedDatasetEval_STAT(self.x, self.orig_ids, self.txt_db, self.img_db, self.orig_transformation_dict, self.use_img_type)
 
     
     def add_aug_data(self, aug_item_ids, use_iterative=True):
@@ -143,7 +143,7 @@ class Nlvr2PairedDataset_DRO(DetectFeatTxtTokDataset):
 
 
 
-def nlvr2_paired_collate_dro(inputs):
+def nlvr2_paired_collate_stat(inputs):
     (input_ids, img_feats, img_pos_feats, attn_masks,
      img_type_ids) = map(list, unzip(concat(outs for outs, _ in inputs)))
 
@@ -180,7 +180,7 @@ def nlvr2_paired_collate_dro(inputs):
     return batch
 
 
-class Nlvr2PairedDatasetEval_DRO(DetectFeatTxtTokDataset):
+class Nlvr2PairedDatasetEval_STAT(DetectFeatTxtTokDataset):
 
     def __init__(self, x, orig_ids, txt_db, img_db, orig_transformation_dict, use_img_type=True):
         assert isinstance(txt_db, TxtTokLmdb)
@@ -202,9 +202,9 @@ class Nlvr2PairedDatasetEval_DRO(DetectFeatTxtTokDataset):
                 break
         # LOGGER.info("Orig_ids {}".format(len(orig_ids)))
         # LOGGER.info("Count {}".format(count))
-        # LOGGER.info("Len of ids in eval dro {}".format(len(self.ids)))    
+        # LOGGER.info("Len of ids in eval stat {}".format(len(self.ids)))    
         txt_lens = get_lens_for_ids(self.txt_db, self.ids)
-        # LOGGER.info("Len of txt_lens in eval dro {}".format(len(txt_lens)))
+        # LOGGER.info("Len of txt_lens in eval stat {}".format(len(txt_lens)))
 
         self.lens = [2*tl + sum(self.img_db.name2nbb[img]
                                 for img in txt2img[id_])
@@ -266,7 +266,7 @@ class Nlvr2PairedDatasetEval_DRO(DetectFeatTxtTokDataset):
     #                             for img in txt2img[id_])
     #                  for tl, id_ in zip(txt_lens, ids)]
 
-def nlvr2_paired_collate_eval_dro(inputs):
+def nlvr2_paired_collate_eval_stat(inputs):
     (input_ids, img_feats, img_pos_feats, attn_masks,
      img_type_ids) = map(list, unzip(concat(outs for outs, _,_,_,_ in inputs)))
 

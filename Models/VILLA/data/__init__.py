@@ -9,7 +9,7 @@ from .sampler import TokenBucketSampler
 from .loader import PrefetchLoader, MetaLoader
 from .vqa import VqaDataset, VqaEvalDataset, vqa_collate, vqa_eval_collate
 
-from .vqa_dro import VqaDataset_DRO, vqa_collate_dro, VqaAugDataset_DRO, vqa_collate_aug_dro
+from .vqa_stat import VqaDataset_STAT, vqa_collate_stat, VqaAugDataset_STAT, vqa_collate_aug_stat
 
 
 from .ve import VeDataset, VeEvalDataset, ve_collate, ve_eval_collate
@@ -17,8 +17,8 @@ from .nlvr2 import (Nlvr2PairedDataset, Nlvr2PairedEvalDataset,
                     Nlvr2TripletDataset, Nlvr2TripletEvalDataset,
                     nlvr2_paired_collate, nlvr2_paired_eval_collate,
                     nlvr2_triplet_collate, nlvr2_triplet_eval_collate)
-from .nlvr2_dro import (Nlvr2PairedDataset_DRO, nlvr2_paired_collate_dro, 
-                    Nlvr2PairedDatasetEval_DRO, nlvr2_paired_collate_eval_dro)
+from .nlvr2_stat import (Nlvr2PairedDataset_STAT, nlvr2_paired_collate_stat, 
+                    Nlvr2PairedDatasetEval_STAT, nlvr2_paired_collate_eval_stat)
 from .itm import (TokenBucketSamplerForItm, ItmDataset,
                   itm_collate, itm_ot_collate,
                   ItmRankDataset, ItmValDataset, ItmEvalDataset,

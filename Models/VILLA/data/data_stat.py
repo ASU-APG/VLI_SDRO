@@ -228,7 +228,7 @@ def get_ids_and_lens(db):
         ids.append(id_)
     return lens, ids
 
-# Added for dro
+# Added for stat
 def get_lens_for_ids(db, _ids):
     # assert isinstance(db, TxtTokLmdb)
     lens = []
@@ -236,7 +236,7 @@ def get_lens_for_ids(db, _ids):
         lens.append(db.id2len[id_])
     return lens
 
-def get_ids_and_lens_dro(db):
+def get_ids_and_lens_stat(db):
     # assert isinstance(db, TxtTokLmdb)
     lens = []
     ids = []
@@ -261,7 +261,7 @@ def get_ids_and_lens_dro(db):
 
     return orig_lens, orig_ids,  orig_transformation_dict
 
-def get_ids_and_lens_dro_vqa(db):
+def get_ids_and_lens_stat_vqa(db):
     # assert isinstance(db, TxtTokLmdb)
     lens = []
     ids = []

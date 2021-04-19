@@ -11,7 +11,7 @@ import json
 import random
 import copy
 from os.path import abspath, dirname, exists, join
-from .data_dro import DetectFeatTxtTokDataset, pad_tensors, get_gather_index, get_lens_for_ids, get_ids_and_lens_dro_vqa
+from .data_stat import DetectFeatTxtTokDataset, pad_tensors, get_gather_index, get_lens_for_ids, get_ids_and_lens_stat_vqa
 from utils.logger import LOGGER
 
 ans2label = json.load(open('/src/utils/ans2label.json'))
@@ -40,7 +40,7 @@ def _get_vqa_target_eval(example, num_answers):
     return target
 
 
-class VqaDataset_DRO(DetectFeatTxtTokDataset):
+class VqaDataset_STAT(DetectFeatTxtTokDataset):
     def __init__(self, num_answers, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -50,7 +50,7 @@ class VqaDataset_DRO(DetectFeatTxtTokDataset):
         txt2img = self.txt_db.txt2img
         self.aug_ids = []
 
-        orig_lens, self.orig_ids, self.orig_transformation_dict = get_ids_and_lens_dro_vqa(self.txt_db)
+        orig_lens, self.orig_ids, self.orig_transformation_dict = get_ids_and_lens_stat_vqa(self.txt_db)
         LOGGER.info("Len of orig_transformation_dict {}".format(len(self.orig_transformation_dict)))
         
         # Filter the ids which have corresponding image feature file
@@ -114,7 +114,7 @@ class VqaDataset_DRO(DetectFeatTxtTokDataset):
         else: 
             self.x = int(len(self.orig_ids) * T)
         
-        return VqaAugDataset_DRO(self.x, self.orig_ids, self.txt_db, self.img_db, self.orig_transformation_dict, self.num_answers), self.x
+        return VqaAugDataset_STAT(self.x, self.orig_ids, self.txt_db, self.img_db, self.orig_transformation_dict, self.num_answers), self.x
 
 
     def add_aug_data(self, aug_item_ids, use_iterative=True):
@@ -144,7 +144,7 @@ class VqaDataset_DRO(DetectFeatTxtTokDataset):
                      for tl, id_ in zip(_lens, self.train_ids)]
 
 
-def vqa_collate_dro(inputs):
+def vqa_collate_stat(inputs):
     (input_ids, img_feats, img_pos_feats, attn_masks, targets
      ) = map(list, unzip(inputs))
 
@@ -174,7 +174,7 @@ def vqa_collate_dro(inputs):
     return batch
 
 
-class VqaAugDataset_DRO(DetectFeatTxtTokDataset):
+class VqaAugDataset_STAT(DetectFeatTxtTokDataset):
     def __init__(self, x, orig_ids, txt_db, img_db, orig_transformation_dict, num_answers):
         # super().__init__(*args, **kwargs)
         self.num_answers = num_answers
@@ -230,7 +230,7 @@ class VqaAugDataset_DRO(DetectFeatTxtTokDataset):
         return input_ids, img_feat, img_pos_feat, attn_masks, target, example['tag'], example['parent_question_id'], id_
 
 
-def vqa_collate_aug_dro(inputs):
+def vqa_collate_aug_stat(inputs):
     (input_ids, img_feats, img_pos_feats, attn_masks, targets, tags, parents, question_ids
      ) = map(list, unzip(inputs))
 
