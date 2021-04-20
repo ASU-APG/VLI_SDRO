@@ -1,0 +1,9 @@
+*.caffemodel
+*.tsv
+/snap
+data/
+RuntimeOutputs/
+test_accuracies/
+run/
+bin/
+lib/
