@@ -15,5 +15,8 @@ Violin Annotations file can be downloaded from [here](https://drive.google.com/f
 - SISP requires setting up [fairseq](https://github.com/pytorch/fairseq) (NMT).
 - We also use embedding files generated using https://github.com/nesl/nlp_adversarial_examples
 
+## Models
+Instructions to use the three models - [LXMERT](https://github.com/airsplay/lxmert), [UNITER](https://github.com/ChenRocks/UNITER), [VILLA](https://github.com/zhegan27/VILLA) can be found in their respective repository.
+
 
 
