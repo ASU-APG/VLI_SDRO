@@ -1,4 +1,4 @@
-# STAT : Semantics Transformed Adversarial Training
+# Semantics Transformed Adversarial Training
 ## Introduction
 Code for the ICCV 2020 paper ["Robust Vision-and-Language Inference via Semantics-Transformed AdversarialTraining"](). 
 
@@ -14,6 +14,6 @@ Violin Annotations file can be downloaded from [here](https://drive.google.com/f
 ### Prerequisites
 - SISP requires setting up [fairseq](https://github.com/pytorch/fairseq) (NMT).
 - We also use embedding files generated using https://github.com/nesl/nlp_adversarial_examples
- 
+
 
 
