@@ -43,7 +43,7 @@ Samples evaluation command
         --output_dir /storage/nlvr2_sw_stat --fp16
 
 ```
-    The results of evalution are written to `results.csv` in `output_dir`. The individual SI, SP and original accuracies can be viewed using `evaluate_nlvr2_test_results.py` script by modifying the path of results file.
+The results of evalution are written to `results.csv` in `output_dir`. The individual SI, SP and original accuracies can be viewed using `evaluate_nlvr2_test_results.py` script by modifying the path of results file.
 
 
 
