@@ -31,7 +31,7 @@ python train_nlvr2_stat.py
     --argmax_parents
 ```
 ### Evaluation
-The trained STAT models for NLVR2 ca be accessed via this [link](). The zip directory has the following :-
+The trained STAT models for NLVR2 ca be accessed via this [link](https://drive.google.com/file/d/1r3HbVhtGzzYwYUMziU3k3F3PpCnXdEIV/view?usp=sharing). The zip directory has the following :-
 - models directory which has trained SW-STAT and GW-STAT models for UNITER and VILLA
 - txt_db directory which has both training and testing SISP db
 - ann directory which contains the JSON files used for created DB files.
