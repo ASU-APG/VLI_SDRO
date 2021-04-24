@@ -26,10 +26,24 @@ A sample training command could be the following
 ```
 python train_nlvr2_stat.py 
     --config config/train-nlvr2-base-1gpu-stat.json \
-    --output_dir /storage/uniter_nlvr2 nlvr2_all_data_stmt_groupstat_20 \
+    --output_dir /storage/nlvr2_gw_stat_20 \
     --T 0.2 \
     --argmax_parents
 ```
+### Evaluation
+The trained STAT models for NLVR2 ca be accessed via this [link](). The zip directory has the following :-
+- models directory which has trained SW-STAT and GW-STAT models for UNITER and VILLA
+- txt_db directory which has both training and testing SISP db
+- ann directory which contains the JSON files used for created DB files.
+Samples evaluation command
+```
+    python inf_nlvr2.py --txt_db /txt/nlvr2_test_si_sp.db/ \
+        --img_db /img/nlvr2_test/ \
+        --train_dir /storage/nlvr2_sw_stat --ckpt 8000 \
+        --output_dir /storage/nlvr2_sw_stat --fp16
+
+```
+    The results of evalution are written to `results.csv` in `output_dir`. The individual SI, SP and original accuracies can be viewed using `evaluate_nlvr2_test_results.py` script by modifying the path of results file.
 
 
 
