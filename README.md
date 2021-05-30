@@ -1,6 +1,6 @@
 # Semantics Transformed Adversarial Training
 ## Introduction
-Code for the ICCV 2020 paper ["Robust Vision-and-Language Inference via Semantics-Transformed AdversarialTraining"](). 
+Code for ["Robust Vision-and-Language Inference via Semantics-Transformed AdversarialTraining"](). 
 
 ## SISP Transformations
 Violin Annotations file can be downloaded from [here](https://drive.google.com/file/d/15XS7F_En90CHnSLrRmQ0M1bqEObuqt1-/view).
