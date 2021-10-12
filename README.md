@@ -1,6 +1,6 @@
 # Semantics Transformed Adversarial Training
 ## Introduction
-Code for ["Robust Vision-and-Language Inference via Semantics-Transformed AdversarialTraining"](). 
+Code for ["Semantically Distributed Robust Optimization \\for Vision-and-Language Inference"](). 
 
 ## SISP Transformations
 Violin Annotations file can be downloaded from [here](https://drive.google.com/file/d/15XS7F_En90CHnSLrRmQ0M1bqEObuqt1-/view).
@@ -18,9 +18,9 @@ Violin Annotations file can be downloaded from [here](https://drive.google.com/f
 ## Models
 Instructions to use the three models - [LXMERT](https://github.com/airsplay/lxmert), [UNITER](https://github.com/ChenRocks/UNITER), [VILLA](https://github.com/zhegan27/VILLA) can be found in their respective repository.
 Additional `config` parameters are added in `train_nlvr2_stat.py` file like
-- `n_pre` and `n_post` : Epoch range where STAT should be used.
+- `n_pre` and `n_post` : Epoch range where SDRO should be used.
 - `T` : `%` of augmented samples to be used during training.
-- `argmax_parents` : Set to true when using sample-wise STAT
+- `argmax_parents` : Set to true when using sample-wise SDRO
 
 A sample training command could be the following
 ```
@@ -31,8 +31,8 @@ python train_nlvr2_stat.py
     --argmax_parents
 ```
 ### Evaluation
-The trained STAT models for NLVR2 ca be accessed via this [link](https://drive.google.com/file/d/1r3HbVhtGzzYwYUMziU3k3F3PpCnXdEIV/view?usp=sharing). The zip directory has the following :-
-- models directory which has trained SW-STAT and GW-STAT models for UNITER and VILLA
+The trained SDRO models for NLVR2 ca be accessed via this [link](https://drive.google.com/file/d/1r3HbVhtGzzYwYUMziU3k3F3PpCnXdEIV/view?usp=sharing). The zip directory has the following :-
+- models directory which has trained SW-SDRO and GW-SDRO models for UNITER and VILLA
 - txt_db directory which has both training and testing SISP db
 - ann directory which contains the JSON files used for created DB files.
 Samples evaluation command
