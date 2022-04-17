@@ -1,6 +1,6 @@
 # Semantics Transformed Adversarial Training
 ## Introduction
-Code for ["Semantically Distributed Robust Optimization \\for Vision-and-Language Inference"](). 
+Code for ["Semantically Distributed Robust Optimization \\for Vision-and-Language Inference"](https://arxiv.org/abs/2110.07165), ACL Findings 2022. 
 
 ## SISP Transformations
 Violin Annotations file can be downloaded from [here](https://drive.google.com/file/d/15XS7F_En90CHnSLrRmQ0M1bqEObuqt1-/view).
