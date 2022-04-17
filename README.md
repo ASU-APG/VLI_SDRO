@@ -30,6 +30,8 @@ python train_nlvr2_stat.py
     --T 0.2 \
     --argmax_parents
 ```
+The code we have provided may have some local paths to data that you would need to change.
+
 ### Evaluation
 The trained SDRO models for NLVR2 ca be accessed via this [link](https://drive.google.com/file/d/1r3HbVhtGzzYwYUMziU3k3F3PpCnXdEIV/view?usp=sharing). The zip directory has the following :-
 - models directory which has trained SW-SDRO and GW-SDRO models for UNITER and VILLA
